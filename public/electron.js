@@ -6,8 +6,9 @@ let mainWindow;
  
 function createWindow() {
     mainWindow = new BrowserWindow({
-        width:1200,
-        height:1000,
+        resizable: false,
+        width:1600,
+        height:1200,
         show: false
     });
     const startURL = isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`;

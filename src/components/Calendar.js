@@ -1,4 +1,6 @@
 import React            from "react";
+
+// Used for date logic
 import {format, 
         addDays, 
         startOfMonth, 
@@ -72,6 +74,8 @@ class Calendar extends React.Component {
     let day = startDate;
     let formattedDate = "";
 
+    // Basically just loop through all dates of a month
+    // and push them into the grid
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
         formattedDate = format(day, dateFormat);
@@ -85,7 +89,7 @@ class Calendar extends React.Component {
             }`}
             key={day}
 
-            // Function for clicking a Date cell
+            // TODO Implement this function
             onClick={() => this.onDateClick(cloneDay)}
           >
             <span className="number">{formattedDate}</span>
