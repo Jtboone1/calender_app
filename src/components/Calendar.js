@@ -8,7 +8,6 @@ import {
     endOfMonth,
     startOfWeek,
     endOfWeek,
-
     subMonths,
     addMonths,
 } from 'date-fns'
@@ -20,9 +19,14 @@ import CalendarCell from './CalendarCell'
 * pass each cell of the calendar date we save locally.
 */
 class Calendar extends React.Component {
+
+    // TODO
+    // Task dates will have to be changed into something that
+    // can be stored. A list with two items, a date and a task.
     state = {
         currentMonth: new Date(),
         selectedDate: new Date(),
+        taskDates: [[new Date(), "Do laundry"]]
     }
 
     // Renders Month / Year header
@@ -85,6 +89,19 @@ class Calendar extends React.Component {
             for (let i = 0; i < 7; i++) {
                 formattedDate = format(day, dateFormat)
                 const cloneDay = day
+                let tasks = [];
+                for (let i = 0; i < this.state.taskDates.length; i++) {
+
+                    // If the has the same date as the task date, we pass it into the cell component.
+                    if (
+                        this.state.taskDates[i][0].getDate() === day.getDate() &&
+                        this.state.taskDates[i][0].getMonth() === day.getMonth() &&
+                        this.state.taskDates[i][0].getFullYear() === day.getFullYear() 
+                    ) {
+                        tasks.push(this.state.taskDates[i][1]);
+                    }
+                }
+
                 days.push(
                         <CalendarCell
                             formattedDate={formattedDate}
@@ -93,6 +110,7 @@ class Calendar extends React.Component {
                             monthStart={monthStart}
                             selectedDate={selectedDate}
                             onClickCell={this.onDateClick}
+                            tasks={tasks}
                         />
                 )
                 day = addDays(day, 1)

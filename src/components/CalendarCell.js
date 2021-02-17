@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import {    
     isSameMonth,
-    isSameDay
+    isSameDay,
+    isThisHour
 } from 'date-fns';
 
 /*
@@ -23,6 +24,11 @@ export class CalendarCell extends Component {
                 >
                     <span className="number">{this.props.formattedDate}</span>
                     <span className="bg">{this.props.formattedDate}</span>
+                    <ul>
+                        {this.props.tasks.map(task => {
+                            return <li>{task}</li>
+                        })}
+                    </ul>
             </div>
         )
     }

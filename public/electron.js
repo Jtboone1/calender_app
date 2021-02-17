@@ -9,13 +9,12 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width:1600,
         height:1200,
-        show: false
+        show: false,
     });
     const startURL = isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`;
  
     mainWindow.loadURL(startURL);
     mainWindow.setMenuBarVisibility(false)
- 
     mainWindow.once('ready-to-show', () => mainWindow.show());
     mainWindow.on('closed', () => {
         mainWindow = null;
