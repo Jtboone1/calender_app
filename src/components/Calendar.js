@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 // Used for date logic
 import {
@@ -11,22 +11,31 @@ import {
     subMonths,
     addMonths,
 } from 'date-fns'
-import CalendarCell from './CalendarCell'
+import CalendarCell from './CalendarCell';
+import Paper from '@material-ui/core/Paper';
 
-
-/*
-* Main calendar component. We can store user state here and
-* pass each cell of the calendar date we save locally.
-*/
 class Calendar extends React.Component {
 
     // TODO
     // Task dates will have to be changed into something that
     // can be stored. A list with two items, a date and a task.
     state = {
+
+        // This
+        today: new Date(),
+
         currentMonth: new Date(),
         selectedDate: new Date(),
-        taskDates: [[new Date(), "Do laundry"]]
+        taskDates: [[new Date(), "Do laundry"], [new Date(), "Take out trash"]]
+    }
+    
+
+    // This changes currentMonth and selectedDate state to the today state which is today
+    goToToday = () => {
+        this.setState({
+            currentMonth: this.state.today,
+            selectedDate: this.state.today
+        })
     }
 
     // Renders Month / Year header
@@ -147,11 +156,13 @@ class Calendar extends React.Component {
 
     render() {
         return (
+          <div>
             <div className="calendar">
-                {this.renderHeader()}
-                {this.renderDays()}
-                {this.renderCells()}
-            </div>
+              {this.renderHeader()}
+              {this.renderDays()}
+              {this.renderCells()}
+          </div>
+        </div>  
         )
     }
 }

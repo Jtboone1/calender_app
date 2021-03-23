@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import {    
     isSameMonth,
     isSameDay,
-    isThisHour
 } from 'date-fns';
 
 /*
