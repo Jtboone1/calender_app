@@ -23,7 +23,6 @@ class Calendar extends React.Component {
 
         // This
         today: new Date(),
-
         currentMonth: new Date(),
         selectedDate: new Date(),
         taskDates: [[new Date(), "Do laundry"], [new Date(), "Take out trash"]]
