@@ -8,11 +8,19 @@ import {
     endOfMonth,
     startOfWeek,
     endOfWeek,
+    isSameMonth,
+    isSameDay,
     subMonths,
     addMonths,
-} from 'date-fns'
-import CalendarCell from './CalendarCell';
-import Paper from '@material-ui/core/Paper';
+    startOfToday
+}
+    from "date-fns";
+
+//imports from Andrew
+import OptionsMenu from "./OptionsMenu";
+import SnaptoToday from "./SnaptoToday";
+
+//end of imports from Andrew
 
 class Calendar extends React.Component {
 
@@ -53,6 +61,11 @@ class Calendar extends React.Component {
                 <div className="col col-center">
                     <span>{format(this.state.currentMonth, dateFormat)}</span>
                 </div>
+
+                <SnaptoToday snaptotoday={this.snaptotoday}/>
+                <OptionsMenu/>
+
+
                 <div className="col col-end">
                     <div className="icon" onClick={this.nextMonth}>chevron_right</div>
                 </div>
@@ -85,12 +98,12 @@ class Calendar extends React.Component {
         const startDate = startOfWeek(monthStart)
         const endDate = endOfWeek(monthEnd)
 
-        const dateFormat = 'd'
-        const rows = []
+        const dateFormat = "d";
+        const rows = [];
 
-        let days = []
-        let day = startDate
-        let formattedDate = ''
+        let days = [];
+        let day = startDate;
+        let formattedDate = "";
 
         // Basically just loop through all dates of a month
         // and push them into the grid
@@ -131,38 +144,47 @@ class Calendar extends React.Component {
             )
             days = []
         }
-        return <div className="body">{rows}</div>
+        return <div className="body">{rows}</div>;
     }
 
     // Function where we can add functionality when clicking a date cell.
-    onDateClick = (day) => {
+    onDateClick = day => {
         this.setState({
-            selectedDate: day,
-        })
-    }
+            selectedDate: day
+        });
+    };
 
     // Used to switch months
     nextMonth = () => {
         this.setState({
-            currentMonth: addMonths(this.state.currentMonth, 1),
-        })
-    }
+            currentMonth: addMonths(this.state.currentMonth, 1)
+        });
+    };
 
     prevMonth = () => {
         this.setState({
-            currentMonth: subMonths(this.state.currentMonth, 1),
-        })
-    }
+            currentMonth: subMonths(this.state.currentMonth, 1)
+        });
+    };
+
+    snaptotoday = () => {
+        const {currentMonth, selectedDate} = this.state;
+        const monthStart = startOfToday(currentMonth);
+        const todayStart = startOfToday(selectedDate);
+
+        this.setState({
+            currentMonth: monthStart,
+            selectedDate: todayStart
+        });
+    };
 
     render() {
         return (
-          <div>
             <div className="calendar">
               {this.renderHeader()}
               {this.renderDays()}
               {this.renderCells()}
           </div>
-        </div>
         )
     }
 }
