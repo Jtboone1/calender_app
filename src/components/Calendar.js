@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 // Used for date logic
 import {
@@ -27,7 +27,7 @@ class Calendar extends React.Component {
         selectedDate: new Date(),
         taskDates: [[new Date(), "Do laundry"], [new Date(), "Take out trash"]]
     }
-    
+
 
     // This changes currentMonth and selectedDate state to the today state which is today
     goToToday = () => {
@@ -39,8 +39,9 @@ class Calendar extends React.Component {
 
     // Renders Month / Year header
     renderHeader() {
+
         // Format String
-        const dateFormat = 'MMMM yyyy'
+        const dateFormat = "MMMM yyyy";
 
         return (
             <div className="header row flex-middle">
@@ -52,17 +53,17 @@ class Calendar extends React.Component {
                 <div className="col col-center">
                     <span>{format(this.state.currentMonth, dateFormat)}</span>
                 </div>
-                <div className="col col-end" onClick={this.nextMonth}>
-                    <div className="icon">chevron_right</div>
+                <div className="col col-end">
+                    <div className="icon" onClick={this.nextMonth}>chevron_right</div>
                 </div>
             </div>
-        )
+        );
     }
 
     // Renders days of the week.
     renderDays() {
-        const dateFormat = 'EEEE'
-        const days = []
+        const dateFormat = "EEEE";
+        const days = [];
 
         let startDate = startOfWeek(this.state.currentMonth)
 
@@ -104,7 +105,7 @@ class Calendar extends React.Component {
                     if (
                         this.state.taskDates[i][0].getDate() === day.getDate() &&
                         this.state.taskDates[i][0].getMonth() === day.getMonth() &&
-                        this.state.taskDates[i][0].getFullYear() === day.getFullYear() 
+                        this.state.taskDates[i][0].getFullYear() === day.getFullYear()
                     ) {
                         tasks.push(this.state.taskDates[i][1]);
                     }
@@ -161,9 +162,9 @@ class Calendar extends React.Component {
               {this.renderDays()}
               {this.renderCells()}
           </div>
-        </div>  
+        </div>
         )
     }
 }
 
-export default Calendar
+export default Calendar;
