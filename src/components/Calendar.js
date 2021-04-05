@@ -1,5 +1,4 @@
 import React from "react";
-import CalendarCell from "./CalendarCell";
 // Used for date logic
 import {
     format,
@@ -10,6 +9,7 @@ import {
     endOfWeek,
     subMonths,
     addMonths,
+  startOfToday
 } from 'date-fns'
 
 // Other NPM functionality
