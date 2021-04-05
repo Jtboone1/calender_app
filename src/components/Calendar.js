@@ -1,5 +1,5 @@
-import React from 'react';
-
+import React from "react";
+import CalendarCell from "./CalendarCell";
 // Used for date logic
 import {
     format,
@@ -29,7 +29,7 @@ class Calendar extends React.Component {
         selectedDate: new Date(),
         taskDates: [[new Date(), "Do laundry"], [new Date(), "Take out trash"]]
     }
-    
+
 
     // This changes currentMonth and selectedDate state to the today state which is today
     goToToday = () => {
@@ -84,8 +84,9 @@ class Calendar extends React.Component {
 
     // Renders Month / Year header
     renderHeader() {
+
         // Format String
-        const dateFormat = 'MMMM yyyy'
+        const dateFormat = "MMMM yyyy";
 
         return (
             <div className="header row flex-middle">
@@ -95,19 +96,21 @@ class Calendar extends React.Component {
                     </div>
                 </div>
                 <div className="col col-center">
-                    <span>{format(this.state.currentMonth, dateFormat)}</span>
+                    <span className="header-month" onClick={this.snaptotoday}>
+                        {format(this.state.currentMonth, dateFormat)}
+                    </span>
                 </div>
-                <div className="col col-end" onClick={this.nextMonth}>
-                    <div className="icon">chevron_right</div>
+                <div className="col col-end">
+                    <div className="icon" onClick={this.nextMonth}>chevron_right</div>
                 </div>
             </div>
-        )
+        );
     }
 
     // Renders days of the week.
     renderDays() {
-        const dateFormat = 'EEEE'
-        const days = []
+        const dateFormat = "EEEE";
+        const days = [];
 
         let startDate = startOfWeek(this.state.currentMonth)
 
@@ -123,18 +126,18 @@ class Calendar extends React.Component {
     }
 
     renderCells() {
-        const { currentMonth, selectedDate } = this.state
+        const {currentMonth, selectedDate} = this.state
         const monthStart = startOfMonth(currentMonth)
         const monthEnd = endOfMonth(monthStart)
         const startDate = startOfWeek(monthStart)
         const endDate = endOfWeek(monthEnd)
 
-        const dateFormat = 'd'
-        const rows = []
+        const dateFormat = "d";
+        const rows = [];
 
-        let days = []
-        let day = startDate
-        let formattedDate = ''
+        let days = [];
+        let day = startDate;
+        let formattedDate = "";
 
         // Basically just loop through all dates of a month
         // and push them into the grid
@@ -149,22 +152,22 @@ class Calendar extends React.Component {
                     if (
                         this.state.taskDates[i][0].getDate() === day.getDate() &&
                         this.state.taskDates[i][0].getMonth() === day.getMonth() &&
-                        this.state.taskDates[i][0].getFullYear() === day.getFullYear() 
+                        this.state.taskDates[i][0].getFullYear() === day.getFullYear()
                     ) {
                         tasks.push(this.state.taskDates[i][1]);
                     }
                 }
 
                 days.push(
-                        <CalendarCell
-                            formattedDate={formattedDate}
-                            cloneDay={cloneDay}
-                            day={day}
-                            monthStart={monthStart}
-                            selectedDate={selectedDate}
-                            onClickCell={this.onDateClick}
-                            tasks={tasks}
-                        />
+                    <CalendarCell
+                        formattedDate={formattedDate}
+                        cloneDay={cloneDay}
+                        day={day}
+                        monthStart={monthStart}
+                        selectedDate={selectedDate}
+                        onClickCell={this.onDateClick}
+                        tasks={tasks}
+                    />
                 )
                 day = addDays(day, 1)
             }
@@ -175,28 +178,39 @@ class Calendar extends React.Component {
             )
             days = []
         }
-        return <div className="body">{rows}</div>
+        return <div className="body">{rows}</div>;
     }
 
     // Function where we can add functionality when clicking a date cell.
-    onDateClick = (day) => {
+    onDateClick = day => {
         this.setState({
-            selectedDate: day,
-        })
-    }
+            selectedDate: day
+        });
+    };
 
     // Used to switch months
     nextMonth = () => {
         this.setState({
-            currentMonth: addMonths(this.state.currentMonth, 1),
-        })
-    }
+            currentMonth: addMonths(this.state.currentMonth, 1)
+        });
+    };
 
     prevMonth = () => {
         this.setState({
-            currentMonth: subMonths(this.state.currentMonth, 1),
-        })
-    }
+            currentMonth: subMonths(this.state.currentMonth, 1)
+        });
+    };
+
+    snaptotoday = () => {
+        const {currentMonth, selectedDate} = this.state;
+        const monthStart = startOfToday(currentMonth);
+        const todayStart = startOfToday(selectedDate);
+
+        this.setState({
+            currentMonth: monthStart,
+            selectedDate: todayStart
+        });
+    };
 
     render() {
         return (
@@ -214,13 +228,13 @@ class Calendar extends React.Component {
                 
             </div>
             <div className="calendar">
-              {this.renderHeader()}
-              {this.renderDays()}
-              {this.renderCells()}
-          </div>
-        </div>  
+                {this.renderHeader()}
+                {this.renderDays()}
+                {this.renderCells()}
+            </div>
+        </div>
         )
     }
 }
 
-export default Calendar
+export default Calendar;

@@ -1,30 +1,36 @@
-const { app, BrowserWindow } = require('electron');
-const isDev = require('electron-is-dev');   
-const path = require('path');
-const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
- 
-let mainWindow;
- 
-function createWindow() {
-    mainWindow = new BrowserWindow({
-        width:1600,
-        height:1200,
-        show: false,
-    });
-    const startURL = isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`;
- 
-    mainWindow.loadURL(startURL);
-    mainWindow.setMenuBarVisibility(false)
-    mainWindow.once('ready-to-show', () => mainWindow.show());
-    mainWindow.on('closed', () => {
-        mainWindow = null;
-    });
+const { app } = require('electron')
+const contextMenu = require('electron-context-menu');
+const {createAuthWindow} = require('../main/authentication-process');
+const createMainWindow  = require('../main/application-process');
+const authService = require('../services/auth-service');
+
+// first time log-in calls {createAuthWindow()}
+//  after Authentication, createAuthWindow() spawns application window
+async function showWindow() {
+    try {
+        await authService.refreshTokens();
+        return createMainWindow();
+    } catch (err) {
+        createAuthWindow();
+    }
 }
 
-app.whenReady().then(() => {
-    installExtension(REACT_DEVELOPER_TOOLS)
-        .then((name) => console.log(`Added Extension:  ${name}`))
-        .catch((err) => console.log('An error occurred: ', err));
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready', showWindow);
+
+// Quit when all windows are closed.
+app.on('window-all-closed', () => {
+    app.quit();
 });
 
-app.on('ready', createWindow);
+
+// Enables right-click to inspect element
+contextMenu({
+    prepend: (params, browserWindow) => [{
+        label: 'Rainbow',
+        // Only show it when right-clicking images
+        visible: params.mediaType === 'image'
+    }]
+});
