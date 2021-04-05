@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 export default function TodoItem(props) {
     const lineThroughStyle = () => {
         return {
-
           textDecoration: props.todo.finished ? "line-through" : "none",
         };
       };

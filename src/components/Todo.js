@@ -28,18 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SimplePaper() {
   const classes = useStyles();
-  const [todoList, setTodoList] = useState([
-      {
-          id: uuidv4(),
-          task: "Take out trash",
-          finished: true
-      },
-      {
-        id: uuidv4(),
-        task: "Finish Homework",
-        finished: false
-    },
-  ]);
+  const [todoList, setTodoList] = useState([]);
   const [todoName, setTodoName] = useState("")
 
   const addTodo = (task) => {

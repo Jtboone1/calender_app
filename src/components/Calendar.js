@@ -11,8 +11,11 @@ import {
     subMonths,
     addMonths,
 } from 'date-fns'
+
+// Other NPM functionality
 import CalendarCell from './CalendarCell';
-import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 class Calendar extends React.Component {
 
@@ -20,8 +23,7 @@ class Calendar extends React.Component {
     // Task dates will have to be changed into something that
     // can be stored. A list with two items, a date and a task.
     state = {
-
-        // This
+        newItemTask: "",
         today: new Date(),
         currentMonth: new Date(),
         selectedDate: new Date(),
@@ -34,6 +36,49 @@ class Calendar extends React.Component {
         this.setState({
             currentMonth: this.state.today,
             selectedDate: this.state.today
+        })
+    }
+
+
+    appendNewTask = () => {
+        const newDates = this.state.taskDates;
+        const newDate = this.state.selectedDate;
+        const newTask = this.state.newItemTask;
+
+        this.setState({
+            taskDates: [...newDates,  [newDate, newTask]]
+        })
+    }
+
+    clearCell = () => {
+
+        const filteredTaskObjects = [];
+        for (let i = 0; i < this.state.taskDates.length; i++) {
+            if (
+                this.state.taskDates[i][0].getDate() !== this.state.selectedDate.getDate() ||
+                this.state.taskDates[i][0].getMonth() !== this.state.selectedDate.getMonth() ||
+                this.state.taskDates[i][0].getFullYear() !== this.state.selectedDate.getFullYear()
+            ) 
+            {
+                const newTask = [this.state.taskDates[i][0], this.state.taskDates[i][1]]
+                filteredTaskObjects.push(newTask);
+            }
+        }
+
+        this.setState({
+            taskDates: filteredTaskObjects
+        })
+    }
+
+    setNewTask = (date) => {
+        this.setState({ 
+            newItemDate: date
+        })
+    }
+    
+    changeTaskText = (e) => {
+        this.setState({
+            newItemTask: e.target.value
         })
     }
 
@@ -156,6 +201,18 @@ class Calendar extends React.Component {
     render() {
         return (
           <div>
+            
+              <form noValidate autoComplete="off">
+                <div style={{display: "flex", flexDirection: "row"}}>
+                  <TextField id="standard-basic" label="Add New Task" onChange={(e) => this.changeTaskText(e)}/>
+                  <Button variant="contained" color="primary" onClick={() => this.appendNewTask()}>Add Task</Button>
+                  <Button style={{float: "right"}} variant="contained" color="secondary" onClick={() => this.clearCell()}>Clear Cell</Button>
+                </div>
+              </form>
+            
+            <div>
+                
+            </div>
             <div className="calendar">
               {this.renderHeader()}
               {this.renderDays()}
