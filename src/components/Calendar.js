@@ -1,5 +1,5 @@
 import React from "react";
-
+import CalendarCell from "./CalendarCell";
 // Used for date logic
 import {
     format,
@@ -8,19 +8,11 @@ import {
     endOfMonth,
     startOfWeek,
     endOfWeek,
-    isSameMonth,
-    isSameDay,
     subMonths,
     addMonths,
     startOfToday
 }
-    from "date-fns";
-
-//imports from Andrew
-import OptionsMenu from "./OptionsMenu";
-import SnaptoToday from "./SnaptoToday";
-
-//end of imports from Andrew
+from "date-fns";
 
 class Calendar extends React.Component {
 
@@ -59,13 +51,10 @@ class Calendar extends React.Component {
                     </div>
                 </div>
                 <div className="col col-center">
-                    <span>{format(this.state.currentMonth, dateFormat)}</span>
+                    <span className="header-month" onClick={this.snaptotoday}>
+                        {format(this.state.currentMonth, dateFormat)}
+                    </span>
                 </div>
-
-                <SnaptoToday snaptotoday={this.snaptotoday}/>
-                <OptionsMenu/>
-
-
                 <div className="col col-end">
                     <div className="icon" onClick={this.nextMonth}>chevron_right</div>
                 </div>
@@ -92,7 +81,7 @@ class Calendar extends React.Component {
     }
 
     renderCells() {
-        const { currentMonth, selectedDate } = this.state
+        const {currentMonth, selectedDate} = this.state
         const monthStart = startOfMonth(currentMonth)
         const monthEnd = endOfMonth(monthStart)
         const startDate = startOfWeek(monthStart)
@@ -125,15 +114,15 @@ class Calendar extends React.Component {
                 }
 
                 days.push(
-                        <CalendarCell
-                            formattedDate={formattedDate}
-                            cloneDay={cloneDay}
-                            day={day}
-                            monthStart={monthStart}
-                            selectedDate={selectedDate}
-                            onClickCell={this.onDateClick}
-                            tasks={tasks}
-                        />
+                    <CalendarCell
+                        formattedDate={formattedDate}
+                        cloneDay={cloneDay}
+                        day={day}
+                        monthStart={monthStart}
+                        selectedDate={selectedDate}
+                        onClickCell={this.onDateClick}
+                        tasks={tasks}
+                    />
                 )
                 day = addDays(day, 1)
             }
@@ -181,10 +170,10 @@ class Calendar extends React.Component {
     render() {
         return (
             <div className="calendar">
-              {this.renderHeader()}
-              {this.renderDays()}
-              {this.renderCells()}
-          </div>
+                {this.renderHeader()}
+                {this.renderDays()}
+                {this.renderCells()}
+            </div>
         )
     }
 }
