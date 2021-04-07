@@ -52,6 +52,7 @@ export default function Options() {
       toggleText(jsonResponse[0].sendphonenumber);
       setEmailString(jsonResponse[0].email);
       setTextString(jsonResponse[0].phonenumber);
+      setNotificationTime(jsonResponse[0].timeperiod);
    }
 
    getOptions();
