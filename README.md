@@ -14,3 +14,11 @@ probably wont work. Best way to run this app would be to just clone the git, run
 
 It'll run both the server and the client. The server will be ran locally on the machine (http://localhost:5000), however if this were a production app, it could just be
 deployed to a hosting service instead, and then just the client could be distributed.
+
+# Notifications
+
+The app has notifications for both SMS and email. We have the hourly option for sending notifications set to 3 minutes instead just for testing purposes / for the presentation. 
+
+The format for text messaging is just "+**********".
+
+So for example, a typical Newfoundland phone number in the text field should be "+17091112222"
