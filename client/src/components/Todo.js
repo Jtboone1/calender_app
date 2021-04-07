@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
@@ -26,13 +26,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimplePaper() {
+export default function Todo() {
   const classes = useStyles();
   const [todoList, setTodoList] = useState([]);
   const [todoName, setTodoName] = useState("")
 
-  const addTodo = (task) => {
+  
 
+  const addTodo = task => {
     if (task !== "") {
         const newTodo = {
             id: uuidv4(),
@@ -61,6 +62,33 @@ export default function SimplePaper() {
     }))
   };
 
+  useEffect (() => {
+    const getTodos = async () => {
+    const response = await fetch("/api/usertodos", {
+        method: "GET",
+    })
+      const jsonResponse = await response.json();
+      const userTodosFromDB = jsonResponse[0].userTodos;
+      console.log(userTodosFromDB);
+      setTodoList(userTodosFromDB);
+   }
+
+   getTodos();
+  }, [])
+
+  useEffect(() => {
+    const saveChanges = async () => {
+        const response = await fetch("/api/usertodos", {
+            method: "PUT",
+            body:  JSON.stringify({userTodos: todoList}),
+            headers: {
+              'Content-Type': 'application/json'
+            },
+        })
+        console.log(response);
+    }
+    saveChanges();
+  }, [todoList])
 
   return (
     <div className={classes.root}>

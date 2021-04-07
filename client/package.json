@@ -59,5 +59,6 @@
   },
   "build": {
     "productName": "Lethe"
-  }
+  },
+  "proxy": "http://localhost:5000"
 }

@@ -16,20 +16,16 @@ import {
 import CalendarCell from './CalendarCell';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Drawer from '@material-ui/core/Drawer';
 
 class Calendar extends React.Component {
-
-    // TODO
-    // Task dates will have to be changed into something that
-    // can be stored. A list with two items, a date and a task.
     state = {
         newItemTask: "",
         today: new Date(),
         currentMonth: new Date(),
         selectedDate: new Date(),
-        taskDates: [[new Date(), "Do laundry"], [new Date(), "Take out trash"]]
+        taskDates: []
     }
-
 
     // This changes currentMonth and selectedDate state to the today state which is today
     goToToday = () => {
@@ -39,6 +35,38 @@ class Calendar extends React.Component {
         })
     }
 
+    // When we load the page, here we just make a call to the DB to 
+    // get the users tasks, and then load them into the state.
+    componentDidMount() {
+        const getCalendarTasks = async () => {
+            const response = await fetch("/api/usertasks", {
+                method: "GET",
+            })
+            const jsonResponse = await response.json();
+            console.log(jsonResponse[0].userTasks);
+
+            const userTasksFromDB = [];
+            for (let i = 0; i < jsonResponse[0].userTasks.length; i++) {
+                userTasksFromDB.push([new Date(jsonResponse[0].userTasks[i][0]), jsonResponse[0].userTasks[i][1]]);
+            }
+
+            this.setState({
+                taskDates: userTasksFromDB
+            })
+        }
+        getCalendarTasks();
+    }
+
+    saveChanges = async () => {
+        const response = await fetch("/api/usertasks", {
+            method: "PUT",
+            body:  JSON.stringify({userTasks: this.state.taskDates}),
+            headers: {
+              'Content-Type': 'application/json'
+            },
+        })
+        console.log(response);
+    }
 
     appendNewTask = () => {
         const newDates = this.state.taskDates;
@@ -51,7 +79,6 @@ class Calendar extends React.Component {
     }
 
     clearCell = () => {
-
         const filteredTaskObjects = [];
         for (let i = 0; i < this.state.taskDates.length; i++) {
             if (
@@ -212,20 +239,45 @@ class Calendar extends React.Component {
         });
     };
 
-    render() {
+    /*
+    drawerFunction = () => {
         return (
-          <div>
-            
-              <form noValidate autoComplete="off">
-                <div style={{display: "flex", flexDirection: "row"}}>
+        <Drawer open={true} anchor={'left'}>
+            <div style={{width: 500}}>
+            <form noValidate autoComplete="off">
+                
+                <div style={{display: "flex", flexDirection: "column", marginTop: "50%"}}>
+                <Button style={{float: "left"}} variant="contained" color="primary" onClick={() => this.saveChanges()}>Save Changes</Button>
                   <TextField id="standard-basic" label="Add New Task" onChange={(e) => this.changeTaskText(e)}/>
                   <Button variant="contained" color="primary" onClick={() => this.appendNewTask()}>Add Task</Button>
                   <Button style={{float: "right"}} variant="contained" color="secondary" onClick={() => this.clearCell()}>Clear Cell</Button>
                 </div>
               </form>
-            
-            <div>
-                
+            </div>
+        </Drawer>
+      )
+    }
+
+    toggleDrawer = (anchor, open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+    };
+
+    */
+
+    render() {
+        return (
+          <div>
+            <div> 
+              <form noValidate autoComplete="off">
+                <Button style={{float: "left"}} variant="contained" color="primary" onClick={() => this.saveChanges()}>Save Changes</Button>
+                <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
+                  <TextField id="standard-basic" label="Add New Task" onChange={(e) => this.changeTaskText(e)}/>
+                  <Button variant="contained" color="primary" onClick={() => this.appendNewTask()}>Add Task</Button>
+                  <Button style={{float: "right"}} variant="contained" color="secondary" onClick={() => this.clearCell()}>Clear Cell</Button>
+                </div>
+              </form>
             </div>
             <div className="calendar">
                 {this.renderHeader()}

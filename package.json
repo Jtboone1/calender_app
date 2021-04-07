@@ -1,0 +1,33 @@
+{
+  "name": "express_app",
+  "version": "1.0.0",
+  "description": "Backend To Store User Info",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm run dev --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jtboone1/calender_app.git"
+  },
+  "author": "Jarrod Boone & Andrew Stone",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jtboone1/calender_app/issues"
+  },
+  "homepage": "https://github.com/Jtboone1/calender_app#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "concurrently": "^6.0.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.3",
+    "node-cron": "^3.0.0",
+    "nodemailer": "^6.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
