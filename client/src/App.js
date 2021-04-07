@@ -1,12 +1,11 @@
 
 import Calendar from "./components/Calendar";
 import Todo from "./components/Todo";
-import React, { useState }from "react";
+import Options from "./components/Options"
+import React, { useState } from "react";
 import "./App.css";
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-
-
 
 function App() {
   const [view, setView] = useState("Calendar");
@@ -19,7 +18,7 @@ function App() {
       return <Todo />;
     }
     else {
-      return;
+      return <Options />;
     }
   }
 
@@ -36,7 +35,7 @@ function App() {
               <ButtonGroup color="primary" aria-label="outlined primary button group">
                 <Button onClick={() => setView("Calendar")}>Calendar</Button>
                 <Button onClick={() => setView("Todo")}>To do list</Button>
-                <Button onClick={() => setView("Weekly")}>Weekly Events</Button>
+                <Button onClick={() => setView("Options")}>Options</Button>
               </ButtonGroup>
             </div>
           </div>

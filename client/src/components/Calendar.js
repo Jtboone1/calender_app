@@ -16,7 +16,6 @@ import {
 import CalendarCell from './CalendarCell';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Drawer from '@material-ui/core/Drawer';
 
 class Calendar extends React.Component {
     state = {
@@ -25,14 +24,6 @@ class Calendar extends React.Component {
         currentMonth: new Date(),
         selectedDate: new Date(),
         taskDates: []
-    }
-
-    // This changes currentMonth and selectedDate state to the today state which is today
-    goToToday = () => {
-        this.setState({
-            currentMonth: this.state.today,
-            selectedDate: this.state.today
-        })
     }
 
     // When we load the page, here we just make a call to the DB to 
@@ -57,6 +48,14 @@ class Calendar extends React.Component {
         getCalendarTasks();
     }
 
+    // This calls the saveChanges function every time the data in the state
+    // changes. Its what keeps the state from changing when
+    // switching tabs in the app.
+    componentDidUpdate() {
+        this.saveChanges();
+    }
+
+    // This is the function that updates the data in the backend
     saveChanges = async () => {
         const response = await fetch("/api/usertasks", {
             method: "PUT",
@@ -74,7 +73,8 @@ class Calendar extends React.Component {
         const newTask = this.state.newItemTask;
 
         this.setState({
-            taskDates: [...newDates,  [newDate, newTask]]
+            taskDates: [...newDates,  [newDate, newTask]],
+            newItemTask: ""
         })
     }
 
@@ -239,43 +239,15 @@ class Calendar extends React.Component {
         });
     };
 
-    /*
-    drawerFunction = () => {
-        return (
-        <Drawer open={true} anchor={'left'}>
-            <div style={{width: 500}}>
-            <form noValidate autoComplete="off">
-                
-                <div style={{display: "flex", flexDirection: "column", marginTop: "50%"}}>
-                <Button style={{float: "left"}} variant="contained" color="primary" onClick={() => this.saveChanges()}>Save Changes</Button>
-                  <TextField id="standard-basic" label="Add New Task" onChange={(e) => this.changeTaskText(e)}/>
-                  <Button variant="contained" color="primary" onClick={() => this.appendNewTask()}>Add Task</Button>
-                  <Button style={{float: "right"}} variant="contained" color="secondary" onClick={() => this.clearCell()}>Clear Cell</Button>
-                </div>
-              </form>
-            </div>
-        </Drawer>
-      )
-    }
-
-    toggleDrawer = (anchor, open) => (event) => {
-        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-            return;
-        }
-    };
-
-    */
-
     render() {
         return (
           <div>
             <div> 
               <form noValidate autoComplete="off">
-                <Button style={{float: "left"}} variant="contained" color="primary" onClick={() => this.saveChanges()}>Save Changes</Button>
-                <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
-                  <TextField id="standard-basic" label="Add New Task" onChange={(e) => this.changeTaskText(e)}/>
-                  <Button variant="contained" color="primary" onClick={() => this.appendNewTask()}>Add Task</Button>
-                  <Button style={{float: "right"}} variant="contained" color="secondary" onClick={() => this.clearCell()}>Clear Cell</Button>
+                <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-start"}}>
+                  <TextField id="standard-basic" label="Add New Task" value={this.state.newItemTask} onChange={(e) => this.changeTaskText(e)} style={{margin: "6px"}}/>
+                  <Button variant="contained" color="primary" onClick={() => this.appendNewTask()} style={{margin: "6px"}}>Add Task</Button>
+                  <Button variant="contained" color="secondary" onClick={() => this.clearCell()} style={{margin: "6px"}}>Clear Cell</Button>
                 </div>
               </form>
             </div>

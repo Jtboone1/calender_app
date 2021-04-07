@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-// This is the blueprint for the user tasks!
+// This is the blueprint for the user data.
 
 const UserTasksSchema = new Schema({
     name: {

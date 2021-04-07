@@ -31,8 +31,7 @@ export default function Todo() {
   const [todoList, setTodoList] = useState([]);
   const [todoName, setTodoName] = useState("")
 
-  
-
+  // Used to add Todos to the list
   const addTodo = task => {
     if (task !== "") {
         const newTodo = {
@@ -46,6 +45,7 @@ export default function Todo() {
     }
   }
 
+  // Delete Todos from the list
   const deleteTodo = id => {
       let newTodoList = todoList.filter(todo => todo.id !== id);
       setTodoList(newTodoList);
@@ -62,6 +62,7 @@ export default function Todo() {
     }))
   };
 
+  // This just gets the todos from the data in the backend
   useEffect (() => {
     const getTodos = async () => {
     const response = await fetch("/api/usertodos", {
@@ -76,6 +77,8 @@ export default function Todo() {
    getTodos();
   }, [])
 
+  // This updates the data in the backend whenever
+  // we change the data in the frontend
   useEffect(() => {
     const saveChanges = async () => {
         const response = await fetch("/api/usertodos", {
@@ -92,12 +95,10 @@ export default function Todo() {
 
   return (
     <div className={classes.root}>
-
       <Paper elevation={3} >
         <form className={classes.text} noValidate autoComplete="off">
           <TextField id="standard-basic"  value={todoName} label="New Task" style={addTodoStyle} onChange={(e) => setTodoName(e.target.value)}/>
           <Button variant="contained" color="primary" style={addButtonStyle} onClick={() => addTodo(todoName)}>Add</Button>
-          
         </form>
         {todoList.map((todo) => (
           <TodoItem 
@@ -107,7 +108,6 @@ export default function Todo() {
             markFinished={markFinished}/>
         ))}
       </Paper>
-
     </div>
   );
 }
