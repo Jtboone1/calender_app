@@ -18,7 +18,11 @@ const UserTasksSchema = new Schema({
         type: Array,
         required: true
     },
+    sendemail: Boolean,
+    sendphonenumber: Boolean,
     email: String,
+    phonenumber: String,
+    timeperiod: String,
     date: {
         type: Date,
         default: Date.now

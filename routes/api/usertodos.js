@@ -8,13 +8,6 @@ const router = express.Router();
 // Bring in the UserTasks model to query the database
 const UserTasks = require('../../models/UserTasks');
 
-// @route GET api/usertodos
-router.get('/', (req, res) => {
-    UserTasks.find()
-        .sort({date: -1})
-        .then(items => res.json(items))
-});
-
 // @route PUT api/usertodos
 // If we actually get users change the Date to be part of the request body.
 router.put('/', (req, res) => {

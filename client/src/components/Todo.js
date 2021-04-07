@@ -53,7 +53,6 @@ export default function Todo() {
 
    // Toggle Finished
    const markFinished = id => {
-    console.log(id)
     setTodoList(todoList.map(todo => {
         if (todo.id === id) {
           todo.finished = !todo.finished;
@@ -65,12 +64,11 @@ export default function Todo() {
   // This just gets the todos from the data in the backend
   useEffect (() => {
     const getTodos = async () => {
-    const response = await fetch("/api/usertodos", {
+    const response = await fetch("/api/usertasks", {
         method: "GET",
     })
       const jsonResponse = await response.json();
       const userTodosFromDB = jsonResponse[0].userTodos;
-      console.log(userTodosFromDB);
       setTodoList(userTodosFromDB);
    }
 
@@ -79,19 +77,16 @@ export default function Todo() {
 
   // This updates the data in the backend whenever
   // we change the data in the frontend
-  useEffect(() => {
-    const saveChanges = async () => {
-        const response = await fetch("/api/usertodos", {
-            method: "PUT",
-            body:  JSON.stringify({userTodos: todoList}),
-            headers: {
-              'Content-Type': 'application/json'
-            },
-        })
-        console.log(response);
-    }
-    saveChanges();
-  }, [todoList])
+  const saveChanges = async () => {
+    const response = await fetch("/api/usertodos", {
+        method: "PUT",
+        body:  JSON.stringify({userTodos: todoList}),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+    })
+    console.log(response);
+  }
 
   return (
     <div className={classes.root}>
@@ -99,6 +94,7 @@ export default function Todo() {
         <form className={classes.text} noValidate autoComplete="off">
           <TextField id="standard-basic"  value={todoName} label="New Task" style={addTodoStyle} onChange={(e) => setTodoName(e.target.value)}/>
           <Button variant="contained" color="primary" style={addButtonStyle} onClick={() => addTodo(todoName)}>Add</Button>
+          <Button variant="contained" color="default" style={applyStyle} onClick={() => saveChanges()}>Apply Changes</Button>
         </form>
         {todoList.map((todo) => (
           <TodoItem 
@@ -110,6 +106,10 @@ export default function Todo() {
       </Paper>
     </div>
   );
+}
+
+const applyStyle = {
+  width: "97%"
 }
 
 const addTodoStyle = {
