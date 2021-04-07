@@ -6,7 +6,7 @@ This project was created using [Create React App](https://github.com/facebook/cr
 
 # For TAs
 
-To install, simply clone the git, cd into the file and then run npm install ( This app requires Node to be on your PC! ) and then run npm run dev in a terminal.
+To install, simply clone the git, cd into the file and then run npm install in the root folder and in the client folder ( This app requires Node to be on your PC! ) and then run npm run dev in a terminal.
 You can also play around with editing the code (src contains all the functionality for the app). Just hit CTRL R and the app will reload whatever changes you've made.
 
 npm run build can be run in the client folder to get an actualy build for the app, however the server must be running in order for the app to interact with its data, else it 
