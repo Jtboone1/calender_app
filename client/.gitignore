@@ -18,15 +18,12 @@
 .env.test.local
 .env.production.local
 
-env-variables.json
-
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
 /dist
 
-.env
 .eslintcache
 
 app.zip
