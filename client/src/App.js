@@ -36,6 +36,7 @@ function App() {
                 <Button onClick={() => setView("Calendar")}>Calendar</Button>
                 <Button onClick={() => setView("Todo")}>To do list</Button>
                 <Button onClick={() => setView("Options")}>Options</Button>
+                <Button id='logout' disabled={true}>Log-out</Button>
               </ButtonGroup>
             </div>
           </div>
