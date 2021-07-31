@@ -1,6 +1,10 @@
 # Calender App
 
-This project was created using [Create React App](https://github.com/facebook/create-react-app), and is being distributed using Electron.
+This project was created using [Create React App](https://github.com/facebook/create-react-app), and is being distributed using Electron. It was made for 5010 for Comp Eng.
+
+
+![Calendar](https://user-images.githubusercontent.com/69441236/127722714-36fd9f15-cc28-4ac7-8a95-e0b1a0909f8b.PNG)
+
 
 ## App Installation
 
