@@ -25,11 +25,17 @@ export class CalendarCell extends Component {
                     <span className="bg">{this.props.formattedDate}</span>
                     <ul>
                         {this.props.tasks.map(task => {
-                            return <li>{task}</li>
+                            return <li style={style.cellStyle}>{task}</li>
                         })}
                     </ul>
             </div>
         )
+    }
+}
+
+const style = {
+    cellStyle: {
+        margin: 0
     }
 }
 

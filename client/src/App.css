@@ -73,7 +73,7 @@ header #logo .icon {
 main {
   display: block;
   margin: auto;
-  max-width: 98%;
+  max-width: 90%;
 }
 
 
@@ -162,13 +162,13 @@ main {
 
 .calendar .body .cell {
   position: relative;
-  height: 9em;
+  height: 6em;
+  width: 7em;
   border-right: 1px solid var(--border-color);
   overflow: hidden;
   cursor: pointer;
   background: var(--neutral-color);
   transition: 0.1s ease-out;
-  border-radius: 10px;
 }
 
 .calendar .body .cell:hover {

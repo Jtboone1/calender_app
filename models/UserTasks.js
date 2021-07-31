@@ -9,20 +9,28 @@ const UserTasksSchema = new Schema({
         type: String,
         require: true
     },
+
     userTasks: {
         type: Array,
         required: true
 
     },
+
     userTodos: {
         type: Array,
         required: true
     },
+
     sendemail: Boolean,
+
     sendphonenumber: Boolean,
+
     email: String,
+
     phonenumber: String,
+
     timeperiod: String,
+
     date: {
         type: Date,
         default: Date.now
